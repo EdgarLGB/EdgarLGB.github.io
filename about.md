@@ -4,12 +4,12 @@ title: About
 permalink: /about/
 ---
 
-Some information about you!
+I have some experiences on Java, Golang, Angular and Docker. I'm passionate about the Blockchain.
 
 ### More Information
 
-A place to include any other types of information that you'd like to include about yourself.
+Contributor of an open source machine learning tool [Apache SystemML](https://github.com/apache/systemml) and an open source devop tool [Alien4Cloud](https://github.com/alien4cloud/alien4cloud)
 
 ### Contact me
 
-[email@domain.com](mailto:email@domain.com)
+[guobao1993.li@gmail.com](guobao1993.li@gmail.com)
