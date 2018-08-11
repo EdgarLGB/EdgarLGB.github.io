@@ -4,8 +4,7 @@ title: Summary of GSOC 2018 project
 ---
 
 ## Overview
-
-I'm Guobao LI, undergraduate of SCUT and graduate of Polytech Nantes. As a participant of GSOC, I have spent a very exciting summer with the Apache community and especially my mentor Matthias. My project ([SYSTEMML-2083](https://issues.apache.org/jira/browse/SYSTEMML-2083)) is to design and implement the language and runtime of parameter server in Apache SystemML. In conclusion, the local and spark data-parallel parameter server including the update strategy (BSP, ASP), update frequency (Batch, Epoch), data partitioning schemes (DC, DR, DRR, OR) are implemented as expected and we achieve a good experimental result. And I'm happy to see that in the next release of SystemML, this new feature will be integrated.
+I am Guobao LI, an undergraduate from SCUT and graduate from Polytech Nantes. It is my pleasure to take part in the project SYSTEMML-2083 with the Apache community and my mentor Matthias Boehm in the GSOC. The objective of [SYSTEMML-2083] is to design and implement the language and runtime of parameter server in Apache SystemML (more details are https://issues.apache.org/jira/browse/SYSTEMML-2083). Finally, we have realized and tested the local and spark data-parallel parameter server including the update strategy (BSP, ASP) and update frequency (Batch, Epoch), data partitioning schemes (DC, DR, DRR, OR) in this project. I am glad to see that our contribution will be integrated in the next release of Apache SystemML.
 
 ## Subject in JIRA:
 Here is the [link](https://issues.apache.org/jira/browse/SYSTEMML-2083) pointing to all the issues in JIRA.
