@@ -33,13 +33,13 @@ token based on the current character. That means when it meets an alphabet, it c
 it reads a digit, it can determine this is going to be a number . So I cite some of the rules defined in our language using regular expression: (the left part infers
 the right parts)
 
-number -> Integer optionalPoint optionalFraction
-Integer -> ([0-9])+
-optionalPoint -> . | e (empty)
-optionalFraction -> ([0-9])+
-identifier -> ([a-Z])([a-Z]|[0-9])*
-relationOperator  ->  > | < | >= | <= | == | !=
-operator -> + | - | * | / | %
+* number -> Integer optionalPoint optionalFraction
+* Integer -> ([0-9])+
+* optionalPoint -> . | e (empty)
+* optionalFraction -> ([0-9])+
+* identifier -> ([a-Z])([a-Z]|[0-9])*
+* relationOperator  ->  > | < | >= | <= | == | !=
+* operator -> + | - | * | / | %
 
 ### Read
 
