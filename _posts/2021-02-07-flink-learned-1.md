@@ -1,10 +1,10 @@
 ---
 layout: post
-title: What I learned about Flink
+title: What I learned from a crash of a Yarn application
 ---
 ![alt text](../images/statue-Christ-the-Redeemer-Rio-de-Janeiro.jpg)
 
-I came across this error when our Flink application was down. 
+I came across this error when our Flink application deployed in Yarn was killed. 
 ```
 2021-02-01 16:01:14,708 INFO  org.apache.hadoop.io.retry.RetryInvocationHandler             - Exception while invoking ApplicationMasterProtocolPBClientImpl.allocate over rm0. Trying to failover immediately.
 java.io.EOFException: End of File Exception between local host is: "48-df-37-50-53-30/10.188.101.18"; destination host is: "48-df-37-4f-dd-20.am6.hpc.criteo.prod":8030; : java.io.EOFException; For more details see:  http://wiki.apache.org/hadoop/EOFException
@@ -34,25 +34,41 @@ Caused by: java.io.EOFException
 	at org.apache.hadoop.ipc.Client$Connection.run(Client.java:978)
 ```
 
-The important thing is not the error itself but what I learnt from it.
+The first line tells that there is an exception when calling the method **ApplicationMasterProtocolPBClientImpl.allocate**. **ApplicationMasterProtocolPBClientImpl** is actually
+the implementation of AM (Application Master). The AM sent a request to **rm0** (Resource Manager) asking for some resources, but it didn't make it for some reason. 
 
-First thing, this exception _java.io.EOFException_ tells that the socket thread reading the input stream actually got nothing to read. Here this stack _java.io.DataInputStream.readInt(DataInputStream.java:392)_ means the thread which is supposed to 
-receive any byte as an integer didn't manage to read any byte. What caused this situation is that server is suddenly down and it is not able to send any bytes to the client through the socket.
+This can be reflected by this line of stacks **org.apache.hadoop.yarn.client.api.impl.AMRMClientImpl.allocate(AMRMClientImpl.java:277)**.
 
-Second thing, _ApplicationMasterProtocolPBClientImpl_ is a class implementing _ApplicationMasterProtocol_ which is the implementation of the protocol between ApplicationManager (AM) and ResourceManager (RM). RM, just like its name, is responsable for all
-the things around the resource in Yarn cluster. AM is the first container launched by RM after users submitting the application. RM needs to know if the AM is still alive by keeping heartbeat between them, otherwise it will
-try to restart a new AM. In fact, _org.apache.hadoop.yarn.client.api.async.impl.AMRMClientAsyncImpl$HeartbeatThread.run(AMRMClientAsyncImpl.java:224)_ shows the heartbeat has 
-failed for some reason. AM didn't manage to send a heartbeat to its RM which is the root cause for this failure.
+**AMRMClientImpl** implements an abstract method **AMRMClient.allocate**, whose goal is to request additional containers and receive new container allocations. When the job
+is submitted to yarn, firstly, an AM will be created; and then AM asks RM for some containers to execute its tasks in parallel; and if having yes to be attributed
+some containers, NM (Node Manager) will launch them for AM. So here, the reason why AM doesn't manage to have new containers is that we are running out of resources.
+And the AM keeps asking, until it receives an invalid token to be forced to stop itself. (See the first line of logs below)
 
-Third thing, some points about how a Yarn application is started. When users submit an application via YarnClient, they have to submit with some information to start the ApplicationMaster (AM) such as the details about the jar of
-the application needed to tell how to reach the jar file, the command to execute the jar, some OS environment settings, etc. Then a container is launched to deploy the AM. AM acts like a main thread executing
-a task but its job is to fork some subroutines to finish the task in parallel way. AM will ask ResourceManager (RM) for a list of available containers to launch the subroutines. After receiving 
-the list, AM will ask NodeManager (NM) to launch the containers with some process settings. If everything goes well, the tasks will be run in those containers and the result be returned to
-AM at last.
+```
+2021-04-21 13:22:23,838 WARN  org.apache.hadoop.io.retry.RetryInvocationHandler             - Exception while invoking ApplicationMasterProtocolPBClientImpl.allocate over rm1. Not retrying because Invalid or Cancelled Token
+org.apache.hadoop.security.token.SecretManager$InvalidToken: Invalid AMRMToken from appattempt_1618921753713_26041_000001
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at org.apache.hadoop.yarn.ipc.RPCUtil.instantiateException(RPCUtil.java:53)
+	at org.apache.hadoop.yarn.ipc.RPCUtil.unwrapAndThrowException(RPCUtil.java:104)
+	at org.apache.hadoop.yarn.api.impl.pb.client.ApplicationMasterProtocolPBClientImpl.allocate(ApplicationMasterProtocolPBClientImpl.java:79)
+	at sun.reflect.GeneratedMethodAccessor28.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.hadoop.io.retry.RetryInvocationHandler.invokeMethod(RetryInvocationHandler.java:288)
+	at org.apache.hadoop.io.retry.RetryInvocationHandler.invoke(RetryInvocationHandler.java:206)
+	at org.apache.hadoop.io.retry.RetryInvocationHandler.invoke(RetryInvocationHandler.java:188)
+	at com.sun.proxy.$Proxy15.allocate(Unknown Source)
+	at org.apache.hadoop.yarn.client.api.impl.AMRMClientImpl.allocate(AMRMClientImpl.java:277)
+	at org.apache.hadoop.yarn.client.api.async.impl.AMRMClientAsyncImpl$HeartbeatThread.run(AMRMClientAsyncImpl.java:224)
+Caused by: org.apache.hadoop.ipc.RemoteException(org.apache.hadoop.security.token.SecretManager$InvalidToken): Invalid AMRMToken from appattempt_1618921753713_26041_000001
+	at org.apache.hadoop.ipc.Client.call(Client.java:1474)
+	at org.apache.hadoop.ipc.Client.call(Client.java:1411)
+	at org.apache.hadoop.ipc.ProtobufRpcEngine$Invoker.invoke(ProtobufRpcEngine.java:231)
+	at com.sun.proxy.$Proxy14.allocate(Unknown Source)
+	at org.apache.hadoop.yarn.api.impl.pb.client.ApplicationMasterProtocolPBClientImpl.allocate(ApplicationMasterProtocolPBClientImpl.java:77)
+```
 
-Bonus:
-
-* What happens if AM is down?
-=> Another AM will be launched by RM.
-* What happens if RM is down?
-=> The high availability of RM is guaranteed by Active/StandBy architecture.
+Finally, we make it running again by asking infrastructure team to raise our team's quota to be able to have more resources on Yarn.
