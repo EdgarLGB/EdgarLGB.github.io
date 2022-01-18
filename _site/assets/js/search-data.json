@@ -1,0 +1,170 @@
+{"0": {
+    "doc": "Difference between tag and branch",
+    "title": "Difference between tag and branch",
+    "content": "What’s the difference between tag and branch in git? . When writing the backend logic with jgit, I realize that git checkout will be executed with a priority, i.e, first checkout the branch and then the tag. A tag represents a version of particular moment in a branch. A branch represents a separate thread of development where you can push the evolutions and it may be merged into the main workflow. Usually, a tag allows to recreate a version from it, e.g, a released version. While a branch contains the on-going updates on a particular version. You’ll make a main line branch based on a particular version and separate a particular branch for fixing a bug or for delivering to a client. And eventually, these branches will be merged back to the main line. More technical: . | tags reside in refs/tags/ namespace, and can point to tag objects (annotated and optionally GPG signed tags) or directly to commit object (less used lightweight tag for local names), or in very rare cases even to tree object or blob object (e.g. GPG signature). | branches reside in refs/heads/ namespace, and can point only to commit objects. The HEAD pointer must refer to a branch (symbolic reference) or directly to a commit (detached HEAD or unnamed branch). | remote-tracking branches reside in refs/remotes/&lt;remote&gt;/ namespace, and follow ordinary branches in remote repository &lt;remote&gt; | . ",
+    "url": "http://localhost:4000/git/2018-4-13-Difference-tag-branch.html",
+    "relUrl": "/git/2018-4-13-Difference-tag-branch.html"
+  },"1": {
+    "doc": "Gradient descents in machine learning",
+    "title": "Stochastic Gradient Descent",
+    "content": "Stochastic Gradient Descent (SGD) calculates the error and updates the model for each example of the training data set. It is also called online machine learning algorithm . Upsides . | The frequent updates immediately give an insight into the performance of the model and the rate of improvement. | The increased model update frequency can result in faster learning on some problems. | The noisy update process can allow the model to avoid local minima (e.g. premature convergence). | . Downsides . | Updating the model so frequently is more computationally expensive than other configurations of gradient descent, taking significantly longer to train models on large datasets. | The frequent updates can result in a noisy gradient signal, which may cause the model parameters and in turn the model error to jump around (have a higher variance over training epochs). | The noisy learning process down the error gradient can also make it hard for the algorithm to settle on an error minimum for the model. | . ",
+    "url": "http://localhost:4000/parameter_server/2018-4-30-Gradient-descent.html#stochastic-gradient-descent",
+    "relUrl": "/parameter_server/2018-4-30-Gradient-descent.html#stochastic-gradient-descent"
+  },"2": {
+    "doc": "Gradient descents in machine learning",
+    "title": "Batch Gradient Descent",
+    "content": "It calculates the error on each example in the training data set but updates the model after all training examples have been evaluated, i.e., an epoch. Upsides . | Fewer updates to the model means this variant of gradient descent is more computationally efficient than stochastic gradient descent. | The decreased update frequency results in a more stable error gradient and may result in a more stable convergence on some problems. | The separation of the calculation of prediction errors and the model update lends the algorithm to parallel processing based implementations. | . Downsides . | The more stable error gradient may result in premature convergence of the model to a less optimal set of parameters. | The updates at the end of the training epoch require the additional complexity of accumulating prediction errors across all training examples. | Commonly, batch gradient descent is implemented in such a way that it requires the entire training dataset in memory and available to the algorithm. | Model updates, and in turn training speed, may become very slow for large datasets. | . ",
+    "url": "http://localhost:4000/parameter_server/2018-4-30-Gradient-descent.html#batch-gradient-descent",
+    "relUrl": "/parameter_server/2018-4-30-Gradient-descent.html#batch-gradient-descent"
+  },"3": {
+    "doc": "Gradient descents in machine learning",
+    "title": "Mini-batch Gradient Descent",
+    "content": "It splits the training data set into small batches according to batch size, and then it calculates the error on it and updates the model after each mini batch. Mini-batch gradient descent seeks to find a balance between the robustness of SGD and the efficiency of batch gradient descent. It is the most common implementation of gradient descent algotithm in the field of deep learning. Upsides . | The model update frequency is higher than batch gradient descent which allows for a more robust convergence, avoiding local minima. | The batched updates provide a computationally more efficient process than stochastic gradient descent. | The batching allows both the efficiency of not having all training data in memory and algorithm implementations. | . Downsides . | Mini-batch requires the configuration of an additional “mini-batch size” hyperparameter for the learning algorithm. | Error information must be accumulated across mini-batches of training examples like batch gradient descent. | . ",
+    "url": "http://localhost:4000/parameter_server/2018-4-30-Gradient-descent.html#mini-batch-gradient-descent",
+    "relUrl": "/parameter_server/2018-4-30-Gradient-descent.html#mini-batch-gradient-descent"
+  },"4": {
+    "doc": "Gradient descents in machine learning",
+    "title": "Gradient descents in machine learning",
+    "content": "Gradient descent is an optimization algorithm to find the parameters (i.e., weights or coefficients) of a machine learning model. It works by having the model to make prediction on the training data and using the error on the prediction to update the model parameters. The goal of gradient descent is to minimize the error of the model on the training data set. It does this by making changes on the model to move it along a gradient or slope of errors down towards the minimal error value. Here is a pseudocode of gradient descent algorithm: . model = initialization(...) n_epochs = ... train_data = ... for i in n_epochs: train_data = shuffle(train_data) X, y = split(train_data) predictions = predict(X, model) error = calculate_error(y, predictions) model = update_model(model, error) . There are three types of gradient descent: . ",
+    "url": "http://localhost:4000/parameter_server/2018-4-30-Gradient-descent.html",
+    "relUrl": "/parameter_server/2018-4-30-Gradient-descent.html"
+  },"5": {
+    "doc": "Three lessons learnt from GSOC (First evaluation)",
+    "title": "Three lessons learnt from GSOC (First evaluation)",
+    "content": "GSOC is a coding summer camp organised by Google. I had the first contact with Apache SystemML Organisation in the middle of 2018/02 just after the announcement of the open source projects list. And then, with the help of my mentor, I started well by reading the papers and understanding step by step the project. And then, my first exciting moment is got accepted the first PR. It pushed me to move forward. Afterwards, I tried my best to write the proposal in the guide of my mentor. The second exciting moment is got accepted as a participant of GSOC! What an amazing news for me! . Well, I’d like to thank my mentor Matthias Boehm which is an amazing, serious-minded person and I have a great pleasure to work with him. During the first evaluation, he gave me some improvement which means a lot for me. Hence, I’d like to take a note: . | Test-Driven-Development. It is always a good coding manner to follow. It helps us to focus on reaching the result. Sometimes, we write directly the integration test which is not able to detect the hidden bug occurred in the critical logic. In order to assure the correctness of the logic, we need to write some unit test. Additionally, unit test can help us to design a clean and low-coupling API of the component. | Simplicity is the king. Always firstly try to resolve the problem in a simple way. And try to think about the reason to some solution more complex before accepting it. | Be more efficient. To be able to have more efficiency, we’d better to think about the problem thoroughly. Never start to code before working out the solution. It means that we could discuss on the pros and cons to the solution. | . ",
+    "url": "http://localhost:4000/gsoc/2018-6-12-Three-lessons-for-me.html",
+    "relUrl": "/gsoc/2018-6-12-Three-lessons-for-me.html"
+  },"6": {
+    "doc": "Summary of GSOC 2018 project",
+    "title": "Overview",
+    "content": "I am Guobao LI, an undergraduate from SCUT and graduate from Polytech Nantes. It is my pleasure to take part in the project SYSTEMML-2083 with the Apache community and my mentor Matthias Boehm in the GSOC. The objective of SYSTEMML-2083 is to design and implement the language and runtime of parameter server in Apache SystemML. Finally, we have realized and tested the local and Spark data-parallel parameter server including the update strategy (BSP, ASP) and update frequency (Batch, Epoch), data partitioning schemes (DC, DR, DRR, OR) in this project. I am glad to see that our contribution will be integrated in the next release of Apache SystemML. ",
+    "url": "http://localhost:4000/gsoc/2018-8-9-Gsoc-project.html#overview",
+    "relUrl": "/gsoc/2018-8-9-Gsoc-project.html#overview"
+  },"7": {
+    "doc": "Summary of GSOC 2018 project",
+    "title": "Subject in JIRA:",
+    "content": "Here is the link pointing to all the issues in JIRA. ",
+    "url": "http://localhost:4000/gsoc/2018-8-9-Gsoc-project.html#subject-in-jira",
+    "relUrl": "/gsoc/2018-8-9-Gsoc-project.html#subject-in-jira"
+  },"8": {
+    "doc": "Summary of GSOC 2018 project",
+    "title": "Pull Requests:",
+    "content": "Here is a list of Pull Requests related to the project and all the code has already been merged into Apache SystemML master. | Category | Pull Request | Commit | . | Language extension | PR-817 PR-764 | SYSTEMML-2299 SYSTEMML-2084,2317-20 | . | Local runtime | PR-790 PR-785 PR-783 PR-782 PR-781 PR-780 PR-777 PR-771 | SYSTEMML-2416 SYSTEMML-2389 SYSTEMML-2381 SYSTEMML-2380 SYSTEMML-2364,66-88 SYSTEMML-2359 SYSTEMML-2344,48,49,52 SYSTEMML-2085 | . | Spark runtime | PR-814 PR-808 PR-805 PR-799 PR-793 | MINOR SYSTEMML-2420,2457 SYSTEMML-2420,2422 SYSTEMML-2419 SYSTEMML-2418 | . | Bug fix | PR-809 PR-802 PR-791 PR-789 PR-787 PR-766 | SYSTEMML-2469 SYSTEMML-2446 SYSTEMML-2403 SYSTEMML-2413 SYSTEMML-2392/8,2401/2/6 MINOR | . | Documentation | PR-816 | SYSTEMML-2090 | . ",
+    "url": "http://localhost:4000/gsoc/2018-8-9-Gsoc-project.html#pull-requests",
+    "relUrl": "/gsoc/2018-8-9-Gsoc-project.html#pull-requests"
+  },"9": {
+    "doc": "Summary of GSOC 2018 project",
+    "title": "Experiments:",
+    "content": "While implementing the parameter server, we also launch the experiments for analyzing the performance and detecting the potential bugs proactively. All the experimental scripts and results have been pushed to this github repository. ",
+    "url": "http://localhost:4000/gsoc/2018-8-9-Gsoc-project.html#experiments",
+    "relUrl": "/gsoc/2018-8-9-Gsoc-project.html#experiments"
+  },"10": {
+    "doc": "Summary of GSOC 2018 project",
+    "title": "Documentation:",
+    "content": "Here is the link pointing to the documentation about paramserv function. Note that this is a snapshot of the Apache SystemML language documentation as of 08/05/2018. ",
+    "url": "http://localhost:4000/gsoc/2018-8-9-Gsoc-project.html#documentation",
+    "relUrl": "/gsoc/2018-8-9-Gsoc-project.html#documentation"
+  },"11": {
+    "doc": "Summary of GSOC 2018 project",
+    "title": "Presentation:",
+    "content": "I have got a very precious opportunity to give a presentation about my work before the Apache SystemML community. Inside the provided slides, there is a complete overview of the project including what is parameter server, how to use paramserv function, the demonstration and the experimental result. Please feel free to take a look on the slides. ",
+    "url": "http://localhost:4000/gsoc/2018-8-9-Gsoc-project.html#presentation",
+    "relUrl": "/gsoc/2018-8-9-Gsoc-project.html#presentation"
+  },"12": {
+    "doc": "Summary of GSOC 2018 project",
+    "title": "Summary of GSOC 2018 project",
+    "content": " ",
+    "url": "http://localhost:4000/gsoc/2018-8-9-Gsoc-project.html",
+    "relUrl": "/gsoc/2018-8-9-Gsoc-project.html"
+  },"13": {
+    "doc": "Compiler part 1",
+    "title": "What’s up?",
+    "content": "I hope everyone stays safe. 2020 is not a usual year when everything seems stuck. I have been locked down at home for more than three months meaning no need to spend time going back and forth between home and the office which is good. So I tried to learn something interesting during this time. What inspired me is the work I did in Apache SystemML during GSoC 2018. The work was that I implemented a built-in function from compilation to runtime. So I would like to know how does a program work under-the-hood. ",
+    "url": "http://localhost:4000/compiler/2020-06-15-compiler-part-1.html#whats-up",
+    "relUrl": "/compiler/2020-06-15-compiler-part-1.html#whats-up"
+  },"14": {
+    "doc": "Compiler part 1",
+    "title": "How a program works?",
+    "content": "A program is merely a text file but how do we make the computer understand what it is asked to do. Nowadays, we usually write a program in a high-level programming language for example Java which is only understandable to human. And the computer only understands the machinery code. We also have some prepared instruction sets which allow to order the computer to do what you want. But we are not writing the program using that complex low-level instructions (which sounds impossible to write an app using it), then how do we translate the high-level programming language to those instructions? We need a compiler. A compiler is a system to translate a high-level programming language into a low-level one such as the intermediate instructions. While an interpreter is a system to execute the instructions upon an operating system. Take Java as an example, javac is a compiler which translates the class files into object byte codes and then the JVM (Java Virtual Machine) will read those intermediate instructions and execute it. It is not surprising that people sometimes call the interpreter a virtual machine. In this tutorial, I will only focus on the compiler. ",
+    "url": "http://localhost:4000/compiler/2020-06-15-compiler-part-1.html#how-a-program-works",
+    "relUrl": "/compiler/2020-06-15-compiler-part-1.html#how-a-program-works"
+  },"15": {
+    "doc": "Compiler part 1",
+    "title": "Architecture",
+    "content": "In general, the architecture of a compiler consists of two parts: frontend and backend. The frontend is a process of turning a stream of characters into a set of intermediates including lexer, syntax analysis, semantic analysis, generation of intermediates. The backend refers to the runtime, the execution part. ",
+    "url": "http://localhost:4000/compiler/2020-06-15-compiler-part-1.html#architecture",
+    "relUrl": "/compiler/2020-06-15-compiler-part-1.html#architecture"
+  },"16": {
+    "doc": "Compiler part 1",
+    "title": "What is the task of tokenization?",
+    "content": "The task is to read a stream of characters and generate a stream of tokens. A token is the minimum unit of a language which can’t be split up, for example, an integer, a keyword. ",
+    "url": "http://localhost:4000/compiler/2020-06-15-compiler-part-1.html#what-is-the-task-of-tokenization",
+    "relUrl": "/compiler/2020-06-15-compiler-part-1.html#what-is-the-task-of-tokenization"
+  },"17": {
+    "doc": "Compiler part 1",
+    "title": "Implementation of tokenization",
+    "content": "The idea is very straightforward. It takes an input of a stream of characters and outputs a stream of tokens. The key point of the implementation is how to determine the token based on the current character. That means when it meets an alphabet, it can uniquely decide this is going to be an identifier (keyword is also an identifier). When it reads a digit, it can determine this is going to be a number . So I cite some of the rules defined in our language using regular expression: (the left part infers the right parts) . | number -&gt; Integer optionalPoint optionalFraction | Integer -&gt; ([0-9])+ | | optionalPoint -&gt; . | e (empty) | . | optionalFraction -&gt; ([0-9])+ | | identifier -&gt; ([a-Z])([a-Z] | [0-9])* | . | | relationOperator -&gt; &gt; | &lt; | &gt;= | &lt;= | == | != | . | | operator -&gt; + | - | * | / | % | . | . Read . public class Lexer { private final InputStream inputStream; private char getChar() throws IOException { return (char) inputStream.read(); } } . Scan an identifier . Here is an example showing how to grab an identifier token. A valid identifier includes either alphabets or digits but always starts with an alphabet. The idea is to read the characters one by one from the input stream and to see it starts with an alphabet, if so that means we meet an identifier. And then we continue to read the characters until we encounter a character which is neither alphabet nor digit. As you look into the code, you might wonder what is a lexeme. A lexeme is like a word of a language which shows exactly what characters is this token made of. Another question is that we want to create a token only once even if we met the same lexeme more than once. We can create an identifier table to keep all the deja-vu identifiers. And then you might ask how do we differentiate an identifier from a keyword given that they are all made of either characters or digits? In fact, a keyword is a token that we preserve to be used internally by the language meaning the users can’t define an identifier with the same lexeme of a keyword. We can’t define true as an identifier since it has been preserved to be a keyword. To know if the current token is a keyword, we previously insert the keyword tokens into identifierMap which is a map of lexeme =&gt; token. When we have a lexeme, we look it up in this map to see if there is a corresponding token. public class Lexer { private final InputStream inputStream; private char current; private final Map&lt;String, Identifier&gt; identifierMap; // the mapping of lexeme -&gt; &lt;tag, lexeme&gt; public Lexer(InputStream input) { inputStream = input; current = '\\0'; lookahead = '\\0'; identifierMap = new HashMap&lt;&gt;(); addKeywords(identifierMap); } private void addKeywords(Map&lt;String, Identifier&gt; identifierMap) { identifierMap.put(\"true\", new Identifier(Tags.TRUE, \"true\")); identifierMap.put(\"false\", new Identifier(Tags.FALSE, \"false\")); } private char getChar() throws IOException { return (char) inputStream.read(); } private Token scan() { Token res; if (isCharacter(current)) { // read identifier token (variables, keywords) res = scanIdentifier(); } return res; } private Token scanIdentifier() throws Exception { StringBuilder sb = new StringBuilder(); do { // Currently only support the identifiers made of characters and digits (but always starts with character) sb.append(current); match(current); } while (isCharacter(current) || isDigit(current)); register = current; String lexeme = sb.toString(); Identifier id = identifierMap.get(lexeme); if (id == null) { id = new Identifier(Tags.ID, lexeme); identifierMap.put(lexeme, id); } return id; } } . ",
+    "url": "http://localhost:4000/compiler/2020-06-15-compiler-part-1.html#implementation-of-tokenization",
+    "relUrl": "/compiler/2020-06-15-compiler-part-1.html#implementation-of-tokenization"
+  },"18": {
+    "doc": "Compiler part 1",
+    "title": "Next part",
+    "content": "In the next part, I will talk about the grammar of a language, such as the context, terminators, rules, etc. ",
+    "url": "http://localhost:4000/compiler/2020-06-15-compiler-part-1.html#next-part",
+    "relUrl": "/compiler/2020-06-15-compiler-part-1.html#next-part"
+  },"19": {
+    "doc": "Compiler part 1",
+    "title": "Compiler part 1",
+    "content": " ",
+    "url": "http://localhost:4000/compiler/2020-06-15-compiler-part-1.html",
+    "relUrl": "/compiler/2020-06-15-compiler-part-1.html"
+  },"20": {
+    "doc": "Parameter server part 1",
+    "title": "Parameter server part 1",
+    "content": "Recently I spent some time looking at the news around a technology in distributed machine learning called Parameter Server and would like to share what I read. I knew about the parameter server when I worked on an OpenSource project Apache SystemML during GSoC 2018. I designed and implemented a model training architecture using the data-parallel parameter server strategy including the model synchronisation strategy BSP and ASP upon Apache Spark. From the result of the experiment, we can notice some issues: . | Network contention: too much time wasted at transferring the data among the network during an iteration. This is caused by the fact that in BSP, a lot of workers finish the gradient computation nearly at the same time and have to compete each other to send data to the parameter server. They use a very low bandwidth to communicate which is not efficient. | Heterogeneous cluster: how to efficiently distribute the workload by taking the fact that there are some servers less powerful than others into account. | Straggling worker: the slowest worker to finish the calculation of gradients is a bottleneck to speed up the whole training process. The issue is also caused by the fact that some less powerful workers receive much more job than they can resolve in a reasonable time. | Network topology: how the parameter server is connected to workers can also affect the efficiency | . Here is what I read from the papers: . | Coded computation is a good solution to address the issue of straggling workers. The main idea is to avoid waiting for the result coming from the straggler at an expense of replicating the training data across the workers. [1] . | Non-persistent stragglers can also be utilised to complete a part of the gradient computation work. The work done by the slowest worker will be discarded even though they compute a part of the result at least. In reality, those partial work can be utilised to update the parameters. This paper proposes that workers can send the partial gradients to the server multiple times during an iteration so that the work done by the straggler is not wasted. [2] . | A round-robin communication way is proposed by this paper to solve the network contention issue. Instead of transfering gradients in the network nearly at the same time, workers are scheduled to do the communication in a round-robin way trying to mitigate the network contention. [3] . | . ",
+    "url": "http://localhost:4000/parameter_server/2020-07-19-parameter-server.html",
+    "relUrl": "/parameter_server/2020-07-19-parameter-server.html"
+  },"21": {
+    "doc": "What I learned from a crash of a Yarn application",
+    "title": "What I learned from a crash of a Yarn application",
+    "content": "I came across this error when our Flink application deployed in Yarn was killed. 2021-02-01 16:01:14,708 INFO org.apache.hadoop.io.retry.RetryInvocationHandler - Exception while invoking ApplicationMasterProtocolPBClientImpl.allocate over rm0. Trying to failover immediately. java.io.EOFException: End of File Exception between local host is: \"48-df-37-50-53-30/10.188.101.18\"; destination host is: \"48-df-37-4f-dd-20.am6.hpc.criteo.prod\":8030; : java.io.EOFException; For more details see: http://wiki.apache.org/hadoop/EOFException at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method) at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62) at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45) at java.lang.reflect.Constructor.newInstance(Constructor.java:423) at org.apache.hadoop.net.NetUtils.wrapWithMessage(NetUtils.java:791) at org.apache.hadoop.net.NetUtils.wrapException(NetUtils.java:764) at org.apache.hadoop.ipc.Client.call(Client.java:1478) at org.apache.hadoop.ipc.Client.call(Client.java:1411) at org.apache.hadoop.ipc.ProtobufRpcEngine$Invoker.invoke(ProtobufRpcEngine.java:231) at com.sun.proxy.$Proxy14.allocate(Unknown Source) at org.apache.hadoop.yarn.api.impl.pb.client.ApplicationMasterProtocolPBClientImpl.allocate(ApplicationMasterProtocolPBClientImpl.java:77) at sun.reflect.GeneratedMethodAccessor29.invoke(Unknown Source) at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) at java.lang.reflect.Method.invoke(Method.java:498) at org.apache.hadoop.io.retry.RetryInvocationHandler.invokeMethod(RetryInvocationHandler.java:288) at org.apache.hadoop.io.retry.RetryInvocationHandler.invoke(RetryInvocationHandler.java:206) at org.apache.hadoop.io.retry.RetryInvocationHandler.invoke(RetryInvocationHandler.java:188) at com.sun.proxy.$Proxy15.allocate(Unknown Source) at org.apache.hadoop.yarn.client.api.impl.AMRMClientImpl.allocate(AMRMClientImpl.java:277) at org.apache.hadoop.yarn.client.api.async.impl.AMRMClientAsyncImpl$HeartbeatThread.run(AMRMClientAsyncImpl.java:224) Caused by: java.io.EOFException at java.io.DataInputStream.readInt(DataInputStream.java:392) at org.apache.hadoop.ipc.Client$Connection.receiveRpcResponse(Client.java:1083) at org.apache.hadoop.ipc.Client$Connection.run(Client.java:978) . The first line tells that there is an exception when calling the method ApplicationMasterProtocolPBClientImpl.allocate. ApplicationMasterProtocolPBClientImpl is actually the implementation of AM (Application Master). The AM sent a request to rm0 (Resource Manager) asking for some resources, but it didn’t make it for some reason. This can be reflected by this line of stacks org.apache.hadoop.yarn.client.api.impl.AMRMClientImpl.allocate(AMRMClientImpl.java:277). AMRMClientImpl implements an abstract method AMRMClient.allocate, whose goal is to request additional containers and receive new container allocations. When the job is submitted to yarn, firstly, an AM will be created; and then AM asks RM for some containers to execute its tasks in parallel; and if having yes to be attributed some containers, NM (Node Manager) will launch them for AM. So here, the reason why AM doesn’t manage to have new containers is that we are running out of resources. And the AM keeps asking, until it receives an invalid token to be forced to stop itself. (See the first line of logs below) . 2021-04-21 13:22:23,838 WARN org.apache.hadoop.io.retry.RetryInvocationHandler - Exception while invoking ApplicationMasterProtocolPBClientImpl.allocate over rm1. Not retrying because Invalid or Cancelled Token org.apache.hadoop.security.token.SecretManager$InvalidToken: Invalid AMRMToken from appattempt_1618921753713_26041_000001 at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method) at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62) at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45) at java.lang.reflect.Constructor.newInstance(Constructor.java:423) at org.apache.hadoop.yarn.ipc.RPCUtil.instantiateException(RPCUtil.java:53) at org.apache.hadoop.yarn.ipc.RPCUtil.unwrapAndThrowException(RPCUtil.java:104) at org.apache.hadoop.yarn.api.impl.pb.client.ApplicationMasterProtocolPBClientImpl.allocate(ApplicationMasterProtocolPBClientImpl.java:79) at sun.reflect.GeneratedMethodAccessor28.invoke(Unknown Source) at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) at java.lang.reflect.Method.invoke(Method.java:498) at org.apache.hadoop.io.retry.RetryInvocationHandler.invokeMethod(RetryInvocationHandler.java:288) at org.apache.hadoop.io.retry.RetryInvocationHandler.invoke(RetryInvocationHandler.java:206) at org.apache.hadoop.io.retry.RetryInvocationHandler.invoke(RetryInvocationHandler.java:188) at com.sun.proxy.$Proxy15.allocate(Unknown Source) at org.apache.hadoop.yarn.client.api.impl.AMRMClientImpl.allocate(AMRMClientImpl.java:277) at org.apache.hadoop.yarn.client.api.async.impl.AMRMClientAsyncImpl$HeartbeatThread.run(AMRMClientAsyncImpl.java:224) Caused by: org.apache.hadoop.ipc.RemoteException(org.apache.hadoop.security.token.SecretManager$InvalidToken): Invalid AMRMToken from appattempt_1618921753713_26041_000001 at org.apache.hadoop.ipc.Client.call(Client.java:1474) at org.apache.hadoop.ipc.Client.call(Client.java:1411) at org.apache.hadoop.ipc.ProtobufRpcEngine$Invoker.invoke(ProtobufRpcEngine.java:231) at com.sun.proxy.$Proxy14.allocate(Unknown Source) at org.apache.hadoop.yarn.api.impl.pb.client.ApplicationMasterProtocolPBClientImpl.allocate(ApplicationMasterProtocolPBClientImpl.java:77) . Finally, we make it running again by asking infrastructure team to raise our team’s quota to be able to have more resources on Yarn. ",
+    "url": "http://localhost:4000/flink/2021-02-07-flink-learned-1.html",
+    "relUrl": "/flink/2021-02-07-flink-learned-1.html"
+  },"22": {
+    "doc": "About",
+    "title": "About",
+    "content": "This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at jekyllrb.com . You can find the source code for Minima at GitHub: jekyll / minima . You can find the source code for Jekyll at GitHub: jekyll / jekyll . ",
+    "url": "http://localhost:4000/about/",
+    "relUrl": "/about/"
+  },"23": {
+    "doc": "Compiler",
+    "title": "Compiler",
+    "content": " ",
+    "url": "http://localhost:4000/compiler/",
+    "relUrl": "/compiler/"
+  },"24": {
+    "doc": "Flink",
+    "title": "Flink",
+    "content": " ",
+    "url": "http://localhost:4000/flink/",
+    "relUrl": "/flink/"
+  },"25": {
+    "doc": "Git",
+    "title": "Git",
+    "content": " ",
+    "url": "http://localhost:4000/git/",
+    "relUrl": "/git/"
+  },"26": {
+    "doc": "Google Summer of Code",
+    "title": "Google Summer of Code",
+    "content": " ",
+    "url": "http://localhost:4000/gsoc/",
+    "relUrl": "/gsoc/"
+  },"27": {
+    "doc": "Parameter Server",
+    "title": "Parameter Server",
+    "content": " ",
+    "url": "http://localhost:4000/parameter_server/",
+    "relUrl": "/parameter_server/"
+  }
+}
