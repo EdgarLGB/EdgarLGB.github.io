@@ -28,9 +28,18 @@ baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: jekyllrb
 github_username:  jekyll
+logo: "/assets/images/selfie.jpg"
+aux_links:
+  "Github":
+    - "//github.com/EdgarLGB"
+
+# Footer last edited timestamp
+last_edit_timestamp: true # show or hide edit time - page must have `last_modified_date` defined in the frontmatter
+last_edit_time_format: "%b %e %Y at %I:%M %p" # uses ruby's time format: https://ruby-doc.org/stdlib-2.7.0/libdoc/time/rdoc/Time.html
+        
 
 # Build settings
-theme: minima
+theme: "just-the-docs"
 plugins:
   - jekyll-feed
 
